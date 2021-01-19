@@ -1,27 +1,30 @@
 {%extends "base.html" %}
 {%block content%}
+{% load static %}
 
 
 <!-- Page Content -->
 <div class="container">
   <div class="row">
     <!-- 입력폼 그리드 -->
-    <div class="col-lg-4" style="margin: auto;">
+    <div class="col-lg-5" style="margin:auto;">
 
       <!-- form -->
-      <form action="member/register" method="POST">
+      <form id="join-form" action="#" method="POST">{% csrf_token %}
         <!-- 이메일 입력 -->
         <div class="input-group mt-3 mb-1">
           <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1"
               style="width: 95.53px;">&nbsp;&nbsp;E-mail&nbsp;&nbsp;</span>
           </div>
-          <input type="text" name="userEmail" class="form-control" placeholder="Input e-mail" aria-label="Input e-mail"
-            aria-describedby="basic-addon1" required></input>
+          <input type="text" id="user-email" name="user_email" class="form-control" placeholder="Input e-mail"
+            aria-label="Input e-mail" aria-describedby="basic-addon1" required></input>
           <!-- E-mail 중복확인 -->
-          <button class="btn btn-dark btn-sm btn-block"
-            style="margin-top: 3px; background-color: grey; color: black;color:aliceblue; border:0" onclick="">e-mail
-            중복확인</button>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" id="btn-email" email_check_result="fail"
+              type="button">중복확인</button>
+          </div>
+
         </div>
 
         <!-- 별명 입력 -->
@@ -29,12 +32,14 @@
           <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1">Nickname</span>
           </div>
-          <input type="text" name="userNickname" class="form-control" placeholder="Input Nickname"
+          <input type="text" id="user-nickname" name="userNickname" class="form-control" placeholder="Input Nickname"
             aria-label="Input Nicname" aria-describedby="basic-addon1" required></input>
-          <!-- Nicname 중복확인 -->
-          <button class="btn btn-dark btn-sm btn-block"
-            style="margin-top: 3px; background-color: grey; color: black; border:0; color:aliceblue;" onclick="">Nicname
-            중복확인</button>
+          <!-- Nickname 중복확인 -->
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" id="btn-nickname" nickname_check_result="fail"
+              type="button">중복확인</button>
+          </div>
+
         </div>
 
         <!-- 비번 입력 -->
@@ -46,15 +51,18 @@
             aria-label="Input Password" aria-describedby="basic-addon1" required>
 
           <!-- 회원가입 버튼 -->
-          <button type="submit" class="btn btn-dark btn-sm btn-block" style="height: 40px; margin-top: 5px;">
+          <button id="regi-btn" type="submit" class="btn btn-dark btn-sm btn-block"
+            style="height: 40px; margin-top: 5px;">
             회원 가입하기</button>
         </div>
 
       </form>
-
     </div>
+
   </div>
 </div>
 <!-- Page Content -->
-
+<!-- base.html 과 는 별계로 jquery를 따로 선언 해줘야 한다 -->
+<script src="{%static 'vendor/jquery/jquery.min.js'%}"></script>
+<script src="{%static 'js/signin.js'%}"></script>
 {%endblock content%}

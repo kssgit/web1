@@ -23,4 +23,4 @@ urlpatterns = [
     path('', include('joinus_app.urls')),
     path('member/', include('member_app.urls')),
     # path('notice/', include('noticeboard_app.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

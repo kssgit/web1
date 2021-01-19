@@ -17,7 +17,7 @@ def signupPage(request):
 
 # 회원 가입 페이지 이동
 def signinPage(request):
-    return render(request, 'joinus_app/signin.html')
+    return render(request, 'member_app/signin.html')
 
 
 # 각 카테고리별 모임페이지 이동
