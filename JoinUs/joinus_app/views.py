@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from . import services
-# Create your views here.
+from django.urls import reverse
+from django.http import HttpResponseRedirect, HttpResponse
 
 
 # 메인 페이지
@@ -13,11 +14,6 @@ def index(request):
 # 로그인 페이지 이동
 def signupPage(request):
     return render(request, 'joinus_app/signup.html')
-
-
-# 회원 가입 페이지 이동
-def signinPage(request):
-    return render(request, 'member_app/signin.html')
 
 
 # 각 카테고리별 모임페이지 이동

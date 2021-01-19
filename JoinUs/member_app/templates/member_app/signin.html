@@ -10,7 +10,7 @@
     <div class="col-lg-5" style="margin:auto;">
 
       <!-- form -->
-      <form id="join-form" action="#" method="POST">{% csrf_token %}
+      <form id="join-form" action="/member/register/" method="POST">{% csrf_token %}
         <!-- 이메일 입력 -->
         <div class="input-group mt-3 mb-1">
           <div class="input-group-prepend">
@@ -32,7 +32,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1">Nickname</span>
           </div>
-          <input type="text" id="user-nickname" name="userNickname" class="form-control" placeholder="Input Nickname"
+          <input type="text" id="user-nickname" name="user_nickname" class="form-control" placeholder="Input Nickname"
             aria-label="Input Nicname" aria-describedby="basic-addon1" required></input>
           <!-- Nickname 중복확인 -->
           <div class="input-group-append">
@@ -47,7 +47,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1" style="width: 95.53px;">비밀번호</span>
           </div>
-          <input type="password" name="userPw" class="form-control" placeholder="Input Password"
+          <input type="password" name="user_pw" class="form-control" placeholder="Input Password"
             aria-label="Input Password" aria-describedby="basic-addon1" required>
 
           <!-- 회원가입 버튼 -->

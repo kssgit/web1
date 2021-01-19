@@ -15,7 +15,7 @@ $(function () {
       return;
     }
     $.ajax({
-      url: '../member/emailCheck?user_email=' + email,
+      url: '/member/emailCheck?user_email=' + email,//.을 붙이는 것과 안붙이는 것의 차이?
       type: 'get',
       dataType: 'json',
       success: function (response) {
@@ -52,7 +52,7 @@ $(function () {
     }
 
     $.ajax({
-      url: '../member/nicknameCheck?user_nickname=' + nickname,
+      url: '/member/nicknameCheck?user_nickname=' + nickname,
       type: 'get',
       dataType: 'json',
       success: function (response) {
@@ -108,4 +108,5 @@ $('#join-form').submit(function () {
     $("#user-nickname").focus();
     return false;
   }
+  alert("회원가입 성공!")
 });
