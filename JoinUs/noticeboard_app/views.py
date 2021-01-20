@@ -18,7 +18,17 @@ def createPage(request):
 
 # 새로운 모임 생성
 def createMeet(request):
-    pass
+    m_category = request.POST['m_category']
+    m_name = request.POST['m_name']
+    m_content = request.POST['m_content']
+    m_body = request.POST['m_body']
+    m_manager_name = request.session.get('user')
+    m_image = request.FILES['m_image']
+    new_meet = Meetings(m_category=m_category, m_name=m_name, m_content=m_content,
+                        m_body=m_body, m_manager_name=m_manager_name, m_image=m_image)
+
+    new_meet.save()
+    return HttpResponseRedirect(reverse('index'))
 
 
 # 모임 이름 중복 체크
