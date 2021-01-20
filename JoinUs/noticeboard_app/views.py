@@ -21,6 +21,7 @@ def createMeet(request):
     m_category = request.POST['m_category']
     m_name = request.POST['m_name']
     m_content = request.POST['m_content']
+    print(m_category)
     m_body = request.POST['m_body']
     m_manager_name = request.session.get('user')
     m_image = request.FILES['m_image']

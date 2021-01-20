@@ -47,18 +47,35 @@ $(document).ready(function () {
 });
 
 
+//submit 체크 
+
 $('#join-form').submit(function () {
   //이미지 업로드 여부 확인
   if (!$('#input-file').val()) {
     alert('대표 이미지를 첨부해주세요~');
+    $("#input-file").focus();
     return false;
   }
+  //이미지 파일 유효성 검사 
+
+  let imgFile = $('#input-file').val();
+  let fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/;
+
+
+  if (!imgFile.match(fileForm)) {
+    alert("이미지 파일만 업로드 가능");
+    return false;
+  }
+
+
+
   // 카테고리 체크여부 확인
   //undefined 왜나오지??? 자바스크립트로 하려면 for 문을 돌려서 확인 해야 한다
   //하지만 jqeury로 할 경우 아래 코드를 이용해 한번에 확인 가능 하다
   let check = $("input:radio[name='m_category']").is(":checked");
   if (!check) {
     alert("카테고리를 체크해주세요");
+
     return false;
   }
 
@@ -113,6 +130,8 @@ $('#m-name').change(function () {
 
   $('#btn-name').show();
   $("#btn-name").attr("name_check_result", "fail");
-
+  $("#btn-name").focus();
 
 });
+
+
