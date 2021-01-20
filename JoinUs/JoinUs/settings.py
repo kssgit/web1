@@ -137,3 +137,8 @@ STATICFILES_FINDERS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # 각 media file에 대한 URL prefix
 MEDIA_URL = '/media/'
+
+
+# 브라우저를 닫으면 세션 사라지게 만드는 구문
+# (장고에서는 세션을 DB에서 관리하기 때문에 브라우저를 닫아도 사라지지 않는다)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

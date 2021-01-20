@@ -7,13 +7,13 @@
     <!-- 입력폼 그리드 -->
     <div class="col-lg-4" style="margin: auto;">
       <!-- form   userID-->
-      <form action="loginAsk" method="post">
+      <form id='join-form' action="/loginCheck/" method="post">{% csrf_token %}
         <!-- ID입력 -->
         <div class="input-group mt-3 mb-1">
           <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1">E-mail</span>
           </div>
-          <input type="text" name="userE-mail" class="form-control" placeholder="Input E-mail" aria-label="Input E-mail"
+          <input type="text" name="user_email" class="form-control" placeholder="Input E-mail" aria-label="Input E-mail"
             aria-describedby="basic-addon1" required>
         </div>
         <!-- PW입력 -->
@@ -21,7 +21,7 @@
           <div class="input-group-prepend" style="width: 70.17px;">
             <span class="input-group-text" id="basic-addon1" style="width: 70.17px;"> &nbsp;PW</span>
           </div>
-          <input type="password" name="userPW" class="form-control" placeholder="Input Password"
+          <input type="password" name="user_pw" class="form-control" placeholder="Input Password"
             aria-label="Input Password" aria-describedby="basic-addon1" required>
         </div>
         <!-- 자동 로그인 -->
@@ -35,10 +35,11 @@
       </form>
 
       <!-- 회원가입 버튼 -->
-      <button type="button" class="btn btn-dark btn-sm btn-block my-1" onclick="location.href='./siginin.html'">회원가입
+      <button type="button" class="btn btn-dark btn-sm btn-block my-1" onclick="location.href='/member/signin/'">회원가입
         하기</button>
-
-
+      {%if error is not null%}
+      <div class="alert alert-danger text-center" role="alert">{{error}}</div>
+      {%endif %}
     </div>
   </div>
 
