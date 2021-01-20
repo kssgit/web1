@@ -50,6 +50,11 @@ def nicknameCheck(request):
     return JsonResponse(result)
 
 
+# 회원 페이지 이동
+def userpage(request):
+    pass
+
+
 # 회원 정보 가져오기
 def getUser(request):
     pass

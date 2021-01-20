@@ -37,9 +37,9 @@
           <li class="nav-item">
             <a class="nav-link" href="/">홈</a>
           </li>
-          {%if nickname is not null%}
+          {%if request.session.user%}
           <li class="nav-item">
-            <a class="nav-link" href="#">{{nickname}} 님 환영합니다</a>
+            <a class="nav-link" href="#">{{request.session.user}} 님 환영합니다</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/logout">logout</a>

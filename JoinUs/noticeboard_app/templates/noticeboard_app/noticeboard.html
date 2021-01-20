@@ -1,0 +1,73 @@
+{%extends "base.html" %}
+{%block content%}
+{%load static %}
+
+
+<link href="{%static 'css/noticeboard.css' %}" rel="stylesheet">
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+
+      <h1 class="my-4">Meeting Name</h1>
+      <div class="list-group" style="text-align: center;">
+        <a href="/noticeboard?category='요리'" class="list-group-item">요리</a>
+        <a href="/noticeboard?category='공부'" class="list-group-item">공부</a>
+        <a href="/noticeboard?category='스포츠'" class="list-group-item">스포츠</a>
+      </div>
+
+    </div>
+
+    <div class="col-lg-7" style="margin: auto;">
+      <h1>Meeting 등록</h1>
+      <hr />
+      <form id='join-form' action="/notice/createMeet/" method="post">{% csrf_token %}
+        <!-- 모임 카테고리 -->
+        <h3>Category</h3>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+          <label class="btn btn-primary">
+            <input type="radio" name="m_category" id="jb-radio-1"> 요리
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" name="m_category" id="jb-radio-2"> 공부
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" name="m_category" id="jb-radio-3"> 스포츠
+          </label>
+        </div>
+        <!-- 모임 이름 -->
+        <h3 class="mt-2">Meeting Name</h3>
+        <input id="m-name" type="text" name="m_name" class="form-control mt-2 mb-2" placeholder="모임 이름을 적어주세요" required>
+        <!-- 모임 이름 중복 확인 여부  -->
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" id="btn-name" name_check_result="fail" type="button">중복확인</button>
+        </div>
+
+
+        <!-- 모임 타이틀 -->
+        <h3>Meeting title</h3>
+        <input type="text" name="content" class="form-control mt-1 mb-2" placeholder="게시글의 소제목을 적어주세요" required>
+        <!-- 모임 설명 -->
+        <h3>description</h3>
+        <div class="form-group">
+          <textarea class="form-control" rows="10" name="bdContent" placeholder="모임에 대한 간략한 설명 적어주세요~"
+            required></textarea>
+        </div>
+        <!-- 이미지 업로드 -->
+        <div class="filebox preview-image">
+          <input class="upload-name" value="파일선택" disabled="disabled">
+          <label for="input-file">업로드</label>
+          <input type="file" name="m_image" id="input-file" class="upload-hidden">
+        </div>
+
+
+        <button type="submit" class="btn btn-secondary mb-3" style="margin-top: 10px;">등록하기</button>
+      </form>
+
+    </div>
+  </div>
+</div>
+</button>
+<script src="{%static 'js/noticeboard.js'%}" defer></script>
+{%endblock content%}
