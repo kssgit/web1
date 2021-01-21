@@ -49,13 +49,17 @@
 
 
         <!-- 모임 타이틀 -->
-        <h3>Meeting title</h3>
+        <h3 class='mt-1'>Meeting title</h3>
         <input type="text" name="m_content" class="form-control mt-1 mb-2" placeholder="게시글의 소제목을 적어주세요" required>
         <!-- 모임 설명 -->
         <h3>description</h3>
         <div class="form-group">
           <textarea class="form-control" rows="10" name="m_body" placeholder="모임에 대한 간략한 설명 적어주세요~" required></textarea>
         </div>
+        <!-- 카카오 오픈 채팅 방 주소 -->
+        <h3>Meeting URL</h3>
+        <input type="text" name="m_url" class="form-control mt-1 mb-2" placeholder="모임 소통할 카카오 오픈 채팅방 주소를 적어 주세요"
+          required>
         <!-- 이미지 업로드 -->
         <div class="filebox preview-image">
           <input class="upload-name" value="파일선택" disabled="disabled">
