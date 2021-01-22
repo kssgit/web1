@@ -28,14 +28,16 @@
         {%for meeting in meetingorder%}
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="{{meeting.m_image.url}}" alt=""></a>
-            <div style="background-color:pink;" class="card-body">
+            <a href="#"><img class="card-img-top" src="{{meeting.m_image.url}}" style="height: 208px;" alt=""></a>
+            <div style="background-color:pink; height: 200px ; " class="card-body">
               <h4 class="card-title">
                 <a href="/notice/getMeet?id={{meeting.m_id}}">{{meeting.m_name}}</a>
               </h4>
               <h5>{{meeting.m_content}}</h5>
-              <p class="card-text">{{meeting.m_body}}
-              </p>
+              <div
+                style="display: -webkit-box; display: -ms-flexbox; display: box; margin-top:1px; max-height:80px; overflow:hidden; vertical-align:top; text-overflow: ellipsis; word-break:break-all; -webkit-box-orient:vertical; -webkit-line-clamp:3">
+                {{meeting.m_body}}
+              </div>
             </div>
             <div class="card-footer">
 
