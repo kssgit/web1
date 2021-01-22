@@ -25,21 +25,27 @@
           src="{{meeting.m_image.url}}" alt="">
         <div class="card-body">
           <h2 class="card-title">{{meeting.m_name}}</h2>
+          <!-- 관리자 옆에 조그만하게 추가 -->
           <h4 class='mt-4'>{{meeting.m_content}}</h4>
           <hr />
           <pre class="card-text">{{meeting.m_body}}</pre>
+
+          <a href='{{meeting.m_url}}'>카카오 오픈 채팅 방 ^^</a>
+
+
           <!-- 가입자수 -->
         </div>
       </div>
       <!-- /.card -->
       <div style="float: right;">
-        {%if request.session.user != meeting.m_manager_nickname%}
-        <button type="button" class="btn btn-primary">가입</button>
+        {%if request.session.user_id != meeting.m_manager_id%}
+        <button type="button" class="btn btn-primary" onclick="location.href='/notice/joinMeet'">가입</button>
         {%endif%}
-        {%if request.session.user == meeting.m_manager_nickname%}
+        {%if request.session.user_id == meeting.m_manager_id%}
         <button type="button" class="btn btn-secondary"
-          onclick="location.href='/notice/updateMeet?id={{meeting.id}}'">수정</button>
-        <button type="button" class="btn btn-secondary">삭제</button>
+          onclick="location.href='/notice/updateMeetCheck?id={{meeting.m_id}}'">수정</button>
+        <button type="button" class="btn btn-secondary"
+          onclick="location.href='/notice/deleteMeet?id={{meeting.m_id}}'">삭제</button>
         {%endif%}
         <!-- 게시글 수정 , 삭제 , 가입 버튼 작성  -->
 

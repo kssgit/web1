@@ -24,58 +24,48 @@
       <!-- 이미지 업로드 하기위해서는 이미지 파일을 인코딩하는 enctype="multipart/form-data"가 반드시 필요 -->
       <!-- <form> 태그의 enctype 속성은 폼 데이터(form data)가 서버로 제출될 때 해당 데이터가 인코딩되는 방법을 명시합니다.
         이 속성은 <form> 요소의 method 속성값이 “post”인 경우에만 사용할 수 있습니다. -->
-      <form id='join-form' action="/notice/createMeet/" enctype="multipart/form-data" method="post">{% csrf_token %}
-        <!-- 모임 카테고리 -->
-        <h3>Category</h3>
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <form id='join-form' action="/notice/update/" enctype="multipart/form-data" method="post">{% csrf_token %}
 
-          <label class="btn btn-primary">
-            <input type="radio" name="m_category" value="요리" id="jb-radio-1"> 요리
-          </label>
-          <label class="btn btn-primary">
-            <input type="radio" name="m_category" value="공부" id="jb-radio-2"> 공부
-          </label>
-          <label class="btn btn-primary">
-            <input type="radio" name="m_category" value="스포츠" id="jb-radio-3"> 스포츠
-          </label>
-        </div>
         <!-- 모임 이름 -->
         <h3 class="mt-2">Meeting Name</h3>
-        <input id="m-name" type="text" name="m_name" class="form-control mt-2 mb-2" placeholder="모임 이름을 적어주세요" required>
+        <input id="m-name" type="text" name="m_name" class="form-control mt-2 mb-2" placeholder="모임 이름을 적어주세요"
+          value="{{meeting.m_name}}" required>
         <!-- 모임 이름 중복 확인 여부  -->
 
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" id="btn-name" name_check_result="fail" type="button">중복확인</button>
+          <button class="btn btn-outline-secondary" id="btn-name" name_check_result="success" style="display: none;"
+            type="button">중복확인</button>
         </div>
 
 
         <!-- 모임 타이틀 -->
         <h3 class='mt-1'>Meeting title</h3>
-        <input type="text" name="m_content" class="form-control mt-1 mb-2" placeholder="게시글의 소제목을 적어주세요" required>
+        <input type="text" name="m_content" class="form-control mt-1 mb-2" placeholder="게시글의 소제목을 적어주세요" required
+          value="{{meeting.m_content}}">
         <!-- 모임 설명 -->
         <h3>description</h3>
         <div class="form-group">
-          <textarea class="form-control" rows="10" name="m_body" placeholder="모임에 대한 간략한 설명 적어주세요~" required></textarea>
+          <textarea class="form-control" rows="10" name="m_body" placeholder="모임에 대한 간략한 설명 적어주세요~"
+            required>{{meeting.m_body}}</textarea>
         </div>
         <!-- 카카오 오픈 채팅 방 주소 -->
         <h3>Meeting URL</h3>
         <input type="text" name="m_url" class="form-control mt-1 mb-2" placeholder="모임 소통할 카카오 오픈 채팅방 주소를 적어 주세요"
           required value="{{meeting.m_url}}">
         <!-- 이미지 업로드 -->
-
         <div class="filebox preview-image">
           <input class="upload-name" value="파일선택" disabled="disabled">
           <label for="input-file">업로드</label>
-          <input type="file" name="m_image" id="input-file" class="upload-hidden" accept="image/*" required>
+          <input type="file" name="m_image" id="input-file" class="upload-hidden" accept="image/*">
         </div>
 
-        <button type="submit" class="btn btn-secondary mb-3" style="margin-top: 10px;">등록하기</button>
+
+        <button type="submit" class="btn btn-secondary mb-3" style="margin-top: 10px;">수정하기</button>
 
       </form>
 
     </div>
   </div>
 </div>
-
-<script src="{%static 'js/noticeboard.js'%}" defer></script>
+<script src="{%static 'js/updatenotice.js'%}" defer></script>
 {%endblock content%}

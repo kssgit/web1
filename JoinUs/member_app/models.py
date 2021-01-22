@@ -4,6 +4,7 @@ from django.db import models
 
 
 class User(models.Model):
+    u_id = models.AutoField(primary_key=True)
     user_email = models.CharField(
         max_length=64, verbose_name='사용자 이메일', unique=True)
     user_nickname = models.CharField(
@@ -13,6 +14,7 @@ class User(models.Model):
         auto_now_add=True, verbose_name='등록시간')
 
 # id
+# u_id
 # user_email
 # user_nickname
 # user_pw

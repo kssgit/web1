@@ -23,7 +23,7 @@ def signupPage(request):
 # 로그아웃
 def logout(request):
     request.session.clear()
-    return redirect('/')
+    return HttpResponseRedirect(reverse('index'))
 
 
 # 로그인 체크
@@ -45,7 +45,7 @@ def loginCheck(request):
         return render(request, 'joinus_app/signup.html', res_data)
 
     request.session['user'] = user_check.user_nickname
-
+    request.session['user_id'] = user_check.u_id
     return HttpResponseRedirect(reverse('index'))
 
 

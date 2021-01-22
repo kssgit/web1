@@ -51,26 +51,23 @@ $(document).ready(function () {
 
 $('#join-form').submit(function () {
   //이미지 업로드 여부 확인
-  if (!$('#input-file').val()) {
-    alert('대표 이미지를 첨부해주세요~');
+  if (document.getElementById('input-file')) {
+    if (!$('#input-file').val()) {
+      var confirm_image = confirm("이미지를 수정하지 않겠습니까?")
+      if (confirm_image == true) {
 
-    return false;
-  }
-  //이미지 파일 유효성 검사 
-  // 카테고리 체크여부 확인
-  //undefined 왜나오지??? 자바스크립트로 하려면 for 문을 돌려서 확인 해야 한다
-  //하지만 jqeury로 할 경우 아래 코드를 이용해 한번에 확인 가능 하다
-  let check = $("input:radio[name='m_category']").is(":checked");
-  if (!check) {
-    alert("카테고리를 체크해주세요");
-
-    return false;
+        if ($("#btn-name").attr("name_check_result") == "fail") {
+          alert("중복 체크해주세요")
+          return false;
+        }
+      }
+      else if (confirm_image == false) {
+        return false;
+      }
+    }
   }
 
-  if ($("#btn-name").attr("name_check_result") == "fail") {
-    alert("중복 체크해주세요")
-    return false;
-  }
+
 
 });
 
@@ -85,7 +82,7 @@ $(function () {
     }
 
     $.ajax({
-      url: '/notice/meetnameCheck?m_name=' + name,//.을 붙이는 것과 안붙이는 것의 차이?
+      url: '/notice/updatemeetnameCheck?m_name=' + name,//.을 붙이는 것과 안붙이는 것의 차이?
       type: 'get',
       dataType: 'json',
       success: function (response) {
@@ -116,10 +113,18 @@ $(function () {
 // 중복 체크후 데이타 수정 한 경우 
 $('#m-name').change(function () {
 
-  $('#btn-name').show();
+  $('#btn-name').css('display', '')
   $("#btn-name").attr("name_check_result", "fail");
   $("#btn-name").focus();
 
 });
 
+//이미지 수정 버튼 클릭시 이미지 업로드 태그 생성 
+// $('#btn-image-show').click(function () {
 
+//   $('#btn-image-show').hide();
+//   var $obj = $('#box-image-input').clone();
+//   $obj.attr('id', 'box-image');
+//   $('#btn-image-show').after($obj);
+//   $('#box-image').css('display', '');
+// });
