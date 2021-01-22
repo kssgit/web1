@@ -11,11 +11,10 @@
 
       <h1 class="my-4">Meeting Name</h1>
       <div class="list-group" style="text-align: center;">
-        <a href="/noticeboard?category='요리'" class="list-group-item">요리</a>
-        <a href="/noticeboard?category='공부'" class="list-group-item">공부</a>
-        <a href="/noticeboard?category='스포츠'" class="list-group-item">스포츠</a>
+        <a href="/noticeboard?category=1" class="list-group-item">요리</a>
+        <a href='/noticeboard?category=2' class="list-group-item">공부</a>
+        <a href="/noticeboard?category=3" class="list-group-item">스포츠</a>
       </div>
-
     </div>
     <!-- /.col-lg-3 -->
     <div class="col-lg-9">
@@ -25,6 +24,7 @@
           src="{{meeting.m_image.url}}" alt="">
         <div class="card-body">
           <h2 class="card-title">{{meeting.m_name}}</h2>
+          <p>{{nickname}}</p>
           <!-- 관리자 옆에 조그만하게 추가 -->
           <h4 class='mt-4'>{{meeting.m_content}}</h4>
           <hr />
@@ -34,6 +34,7 @@
 
 
           <!-- 가입자수 -->
+          <p>{{count}}</p>
         </div>
       </div>
       <!-- /.card -->

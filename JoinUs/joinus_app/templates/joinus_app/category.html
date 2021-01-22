@@ -10,9 +10,9 @@
 
       <h1 class="my-4">Meeting Name</h1>
       <div class="list-group" style="text-align: center;">
-        <a href="/noticeboard?category='요리'" class="list-group-item">요리</a>
-        <a href="/noticeboard?category='공부'" class="list-group-item">공부</a>
-        <a href="/noticeboard?category='스포츠'" class="list-group-item">스포츠</a>
+        <a href="/noticeboard?category=1" class="list-group-item">요리</a>
+        <a href='/noticeboard?category=2' class="list-group-item">공부</a>
+        <a href="/noticeboard?category=3" class="list-group-item">스포츠</a>
       </div>
 
     </div>
@@ -25,112 +25,28 @@
       <h1>TOP3 Meeting</h1>
       <div class="row">
 
+        {%for meeting in meetingorder%}
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+            <a href="#"><img class="card-img-top" src="{{meeting.m_image.url}}" alt=""></a>
             <div style="background-color:pink;" class="card-body">
               <h4 class="card-title">
-                <a href="/notice/getMeet?id=1">Python Master</a>
+                <a href="/notice/getMeet?id={{meeting.m_id}}">{{meeting.m_name}}</a>
               </h4>
-              <h5>AI, BIG DATA </h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!
+              <h5>{{meeting.m_content}}</h5>
+              <p class="card-text">{{meeting.m_body}}
               </p>
             </div>
             <div class="card-footer">
-              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+
             </div>
           </div>
         </div>
 
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div style="background-color:pink;" class="card-body">
-              <h4 class="card-title">
-                <a href="#">和食</a>
-              </h4>
-              <h5>일본 전통 요리</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!
-                Lorem ipsum dolor sit amet.</p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div style="background-color:pink;" class="card-body">
-              <h4 class="card-title">
-                <a href="#"> kebab</a>
-              </h4>
-              <h5>집에서 쉽게 만들어 먹는 케밥</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!
-                Lorem ipsum dolor sit amet.</p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            </div>
-          </div>
-        </div>
+        {%endfor%}
 
 
 
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">고양이 집사</a>
-              </h4>
-              <h5>고양이가 주인이가 내가 주인인가</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                aspernatur!
-              </p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">한국인의 밥상</a>
-              </h4>
-              <h5>현대 한국인의 입맛!</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                aspernatur!
-                Lorem ipsum dolor sit amet.</p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">클라이밍</a>
-              </h4>
-              <h5>오를 때 그 짜릿함!</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                aspernatur!
-                Lorem ipsum dolor sit amet.</p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            </div>
-          </div>
-        </div>
 
       </div>
       <!-- /.row -->

@@ -93,10 +93,18 @@ def getMeet(request):
     # db에서 정보 불러오기
     res_data = {}
     meeting = Meetings.objects.get(m_id=id)
+    # 유저정보에서 해당 개시글 작성자의 닉네임 가져오기
     member = apps.get_model(app_label='member_app', model_name='user')
     member_name = member.objects.get(u_id=meeting.m_manager_id)
     res_data['nickname'] = member_name.user_nickname
     res_data['meeting'] = meeting
+    # 가입자수 가져오기
+    # select count(u_id) from joinus where m_id=id;
+    joinus = apps.get_model(
+        app_label='joinus_app', model_name='joinus')
+    join = joinus.objects.filter(m_id=id).count()
+    res_data['count'] = join
+
     # 세션에 가입할 게시판 번호 등록
     request.session['join'] = id
     return render(request, 'noticeboard_app/getnoticeboard.html', res_data)
@@ -148,12 +156,14 @@ def joinMeet(request):
                 # 해당 유저가 가입한 모임 id 들 가져오기
                 joincheck = joinus.objects.filter(
                     u_id=request.session.get('user_id'))
+                print("에러 안남")
                 # 해당 유저가 가입한 모임들하고 비교후 있으면 해당 페이지로 리턴
-                for index, join in enumerate(joincheck):
-                    if join.u_id == request.session.get('user_id'):
+                for join in joincheck:
+                    # 알아두자 requset에서 들어오는 파라미터는 str 로 들어온다는 것을 ....
+                    if join.m_id == int(id):
                         return redirect('/notice/getMeet?id='+id)
                 raise Exception
-           # if request.session.get('user_id') !=
+
             except Exception:
                 # 가입한 모임이 없으면
                 user_id = request.session.get('user_id')
@@ -176,6 +186,11 @@ def deleteMeet(request):
         check_meet = Meetings.objects.get(m_id=request.GET['id'])
         if request.session.get('user_id') == check_meet.m_manager_id:
             check_meet.delete()
+            # joinus 테이블의 해당 모임 id도 삭제
+            joinus = apps.get_model(
+                app_label='joinus_app', model_name='joinus')
+            select_join = joinus.objects.get(m_id=request.GET['id'])
+            select_join.delete()
             return HttpResponseRedirect(reverse('index'))
         else:
             return HttpResponseRedirect(reverse('index'))
