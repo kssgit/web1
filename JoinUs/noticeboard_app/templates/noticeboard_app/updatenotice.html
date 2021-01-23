@@ -1,71 +1,59 @@
-{%extends "base.html" %}
+{%extends "categorylist.html" %}
 {%block content%}
 {%load static %}
 
 
 <link href="{%static 'css/noticeboard.css' %}" rel="stylesheet">
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-3">
 
-      <h1 class="my-4">Meeting Name</h1>
-      <div class="list-group" style="text-align: center;">
-        <a href="/noticeboard?category=1" class="list-group-item">요리</a>
-        <a href='/noticeboard?category=2' class="list-group-item">공부</a>
-        <a href="/noticeboard?category=3" class="list-group-item">스포츠</a>
-      </div>
 
-    </div>
-
-    <div class="col-lg-7" style="margin: auto;">
-      <h1>Meeting 등록</h1>
-      <hr />
-      <!-- 이미지 업로드 하기위해서는 이미지 파일을 인코딩하는 enctype="multipart/form-data"가 반드시 필요 -->
-      <!-- <form> 태그의 enctype 속성은 폼 데이터(form data)가 서버로 제출될 때 해당 데이터가 인코딩되는 방법을 명시합니다.
+<div class="col-lg-7" style="margin: auto;">
+  <h1>Meeting 등록</h1>
+  <hr />
+  <!-- 이미지 업로드 하기위해서는 이미지 파일을 인코딩하는 enctype="multipart/form-data"가 반드시 필요 -->
+  <!-- <form> 태그의 enctype 속성은 폼 데이터(form data)가 서버로 제출될 때 해당 데이터가 인코딩되는 방법을 명시합니다.
         이 속성은 <form> 요소의 method 속성값이 “post”인 경우에만 사용할 수 있습니다. -->
-      <form id='join-form' action="/notice/update/" enctype="multipart/form-data" method="post">{% csrf_token %}
+  <form id='join-form' action="/notice/update/" enctype="multipart/form-data" method="post">{% csrf_token %}
 
-        <!-- 모임 이름 -->
-        <h3 class="mt-2">Meeting Name</h3>
-        <input id="m-name" type="text" name="m_name" class="form-control mt-2 mb-2" placeholder="모임 이름을 적어주세요"
-          value="{{meeting.m_name}}" required>
-        <!-- 모임 이름 중복 확인 여부  -->
+    <!-- 모임 이름 -->
+    <h3 class="mt-2">Meeting Name</h3>
+    <input id="m-name" type="text" name="m_name" class="form-control mt-2 mb-2" placeholder="모임 이름을 적어주세요"
+      value="{{meeting.m_name}}" required>
+    <!-- 모임 이름 중복 확인 여부  -->
 
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" id="btn-name" name_check_result="success" style="display: none;"
-            type="button">중복확인</button>
-        </div>
-
-
-        <!-- 모임 타이틀 -->
-        <h3 class='mt-1'>Meeting title</h3>
-        <input type="text" name="m_content" class="form-control mt-1 mb-2" placeholder="게시글의 소제목을 적어주세요" required
-          value="{{meeting.m_content}}">
-        <!-- 모임 설명 -->
-        <h3>description</h3>
-        <div class="form-group">
-          <textarea class="form-control" rows="10" name="m_body" placeholder="모임에 대한 간략한 설명 적어주세요~"
-            required>{{meeting.m_body}}</textarea>
-        </div>
-        <!-- 카카오 오픈 채팅 방 주소 -->
-        <h3>Meeting URL</h3>
-        <input type="text" name="m_url" class="form-control mt-1 mb-2" placeholder="모임 소통할 카카오 오픈 채팅방 주소를 적어 주세요"
-          required value="{{meeting.m_url}}">
-        <!-- 이미지 업로드 -->
-        <div class="filebox preview-image">
-          <input class="upload-name" value="파일선택" disabled="disabled">
-          <label for="input-file">업로드</label>
-          <input type="file" name="m_image" id="input-file" class="upload-hidden" accept="image/*">
-        </div>
-
-
-        <button type="submit" class="btn btn-secondary mb-3" style="margin-top: 10px;">수정하기</button>
-
-      </form>
-
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" id="btn-name" name_check_result="success" style="display: none;"
+        type="button">중복확인</button>
     </div>
-  </div>
+
+
+    <!-- 모임 타이틀 -->
+    <h3 class='mt-1'>Meeting title</h3>
+    <input type="text" name="m_content" class="form-control mt-1 mb-2" placeholder="게시글의 소제목을 적어주세요" required
+      value="{{meeting.m_content}}">
+    <!-- 모임 설명 -->
+    <h3>description</h3>
+    <div class="form-group">
+      <textarea class="form-control" rows="10" name="m_body" placeholder="모임에 대한 간략한 설명 적어주세요~"
+        required>{{meeting.m_body}}</textarea>
+    </div>
+    <!-- 카카오 오픈 채팅 방 주소 -->
+    <h3>Meeting URL</h3>
+    <input type="text" name="m_url" class="form-control mt-1 mb-2" placeholder="모임 소통할 카카오 오픈 채팅방 주소를 적어 주세요" required
+      value="{{meeting.m_url}}">
+    <!-- 이미지 업로드 -->
+    <div class="filebox preview-image">
+      <input class="upload-name" value="파일선택" disabled="disabled">
+      <label for="input-file">업로드</label>
+      <input type="file" name="m_image" id="input-file" class="upload-hidden" accept="image/*">
+    </div>
+
+
+    <button type="submit" class="btn btn-secondary mb-3" style="margin-top: 10px;">수정하기</button>
+
+  </form>
+
 </div>
+
 <script src="{%static 'js/updatenotice.js'%}" defer></script>
 {%endblock content%}

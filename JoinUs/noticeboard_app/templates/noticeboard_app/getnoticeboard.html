@@ -1,58 +1,46 @@
-{%extends "base.html" %}
+{%extends "categorylist.html" %}
 {%block content%}
 {%load static %}
 
 
 <link href="{%static 'css/noticeboard.css' %}" rel="stylesheet">
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-3">
+<div class="col-lg-9">
 
-      <h1 class="my-4">Meeting Name</h1>
-      <div class="list-group" style="text-align: center;">
-        <a href="/noticeboard?category=1" class="list-group-item">요리</a>
-        <a href='/noticeboard?category=2' class="list-group-item">공부</a>
-        <a href="/noticeboard?category=3" class="list-group-item">스포츠</a>
-      </div>
-    </div>
-    <!-- /.col-lg-3 -->
-    <div class="col-lg-9">
+  <div class="card mt-4">
+    <img class="img-responsive center-block" style="max-width: 40%; max-height: 20%; margin: auto;"
+      src="{{meeting.m_image.url}}" alt="">
+    <div class="card-body">
+      <h2 class="card-title">{{meeting.m_name}}</h2>
+      <p>{{nickname}}</p>
+      <!-- 관리자 옆에 조그만하게 추가 -->
+      <h4 class='mt-4'>{{meeting.m_content}}</h4>
+      <hr />
+      <pre class="card-text">{{meeting.m_body}}</pre>
 
-      <div class="card mt-4">
-        <img class="img-responsive center-block" style="max-width: 40%; max-height: 20%; margin: auto;"
-          src="{{meeting.m_image.url}}" alt="">
-        <div class="card-body">
-          <h2 class="card-title">{{meeting.m_name}}</h2>
-          <p>{{nickname}}</p>
-          <!-- 관리자 옆에 조그만하게 추가 -->
-          <h4 class='mt-4'>{{meeting.m_content}}</h4>
-          <hr />
-          <pre class="card-text">{{meeting.m_body}}</pre>
-
-          <a href='{{meeting.m_url}}'>카카오 오픈 채팅 방 ^^</a>
+      <a href='{{meeting.m_url}}'>카카오 오픈 채팅 방 ^^</a>
 
 
-          <!-- 가입자수 -->
-          <p>{{count}}</p>
-        </div>
-      </div>
-      <!-- /.card -->
-      <div style="float: right;">
-        {%if request.session.user_id != meeting.m_manager_id%}
-        <button type="button" class="btn btn-primary" onclick="location.href='/notice/joinMeet'">가입</button>
-        {%endif%}
-        {%if request.session.user_id == meeting.m_manager_id%}
-        <button type="button" class="btn btn-secondary"
-          onclick="location.href='/notice/updateMeetCheck?id={{meeting.m_id}}'">수정</button>
-        <button type="button" class="btn btn-secondary"
-          onclick="location.href='/notice/deleteMeet?id={{meeting.m_id}}'">삭제</button>
-        {%endif%}
-        <!-- 게시글 수정 , 삭제 , 가입 버튼 작성  -->
-
-      </div>
+      <!-- 가입자수 -->
+      <p>{{count}}</p>
     </div>
   </div>
-  </button>
+  <!-- /.card -->
+  <div style="float: right;">
+    {%if request.session.user_id != meeting.m_manager_id%}
+    <button type="button" class="btn btn-primary" onclick="location.href='/notice/joinMeet'">가입</button>
+    {%endif%}
+    {%if request.session.user_id == meeting.m_manager_id%}
+    <button type="button" class="btn btn-secondary"
+      onclick="location.href='/notice/updateMeetCheck?id={{meeting.m_id}}'">수정</button>
+    <button type="button" class="btn btn-secondary"
+      onclick="location.href='/notice/deleteMeet?id={{meeting.m_id}}'">삭제</button>
+    {%endif%}
+    <!-- 게시글 수정 , 삭제 , 가입 버튼 작성  -->
 
-  {%endblock content%}
+  </div>
+</div>
+
+
+
+{%endblock content%}

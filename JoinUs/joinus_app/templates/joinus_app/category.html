@@ -1,64 +1,70 @@
-{%extends "base.html" %}
+{%extends "categorylist.html" %}
 {%block content%}
 
-<!-- Page Content -->
-<div class="container">
 
+
+<div class="col-lg-9" style="margin-top: 5%;">
+  <div style="text-align: center; float: right;">
+    <a href="/notice/createPage" class="list-group-item" style="background-color: rgb(153, 153, 143);">모임 만들기</a>
+  </div>
+  {%if meetingTop3%}
+  <h1>TOP3 Meetings</h1>
+  {%else%}
+  <h1>Meetings</h1>
+  {%endif%}
   <div class="row">
-
-    <div class="col-lg-3">
-
-      <h1 class="my-4">Meeting Name</h1>
-      <div class="list-group" style="text-align: center;">
-        <a href="/noticeboard?category=1" class="list-group-item">요리</a>
-        <a href='/noticeboard?category=2' class="list-group-item">공부</a>
-        <a href="/noticeboard?category=3" class="list-group-item">스포츠</a>
-      </div>
-
-    </div>
-    <!-- /.col-lg-3 -->
-
-    <div class="col-lg-9" style="margin-top: 5%;">
-      <div style="text-align: center; float: right;">
-        <a href="/notice/createPage" class="list-group-item" style="background-color: rgb(153, 153, 143);">모임 만들기</a>
-      </div>
-      <h1>TOP3 Meeting</h1>
-      <div class="row">
-
-        {%for meeting in meetingorder%}
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="{{meeting.m_image.url}}" style="height: 208px;" alt=""></a>
-            <div style="background-color:pink; height: 200px ; " class="card-body">
-              <h4 class="card-title">
-                <a href="/notice/getMeet?id={{meeting.m_id}}">{{meeting.m_name}}</a>
-              </h4>
-              <h5>{{meeting.m_content}}</h5>
-              <div
-                style="display: -webkit-box; display: -ms-flexbox; display: box; margin-top:1px; max-height:80px; overflow:hidden; vertical-align:top; text-overflow: ellipsis; word-break:break-all; -webkit-box-orient:vertical; -webkit-line-clamp:3">
-                {{meeting.m_body}}
-              </div>
-            </div>
-            <div class="card-footer">
-
-            </div>
+    {%if meetingTop3%}
+    {%for meeting in meetingTop3%}
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="card h-100">
+        <a href="#"><img class="card-img-top" src="{{meeting.m_image.url}}" style="height: 208px;" alt=""></a>
+        <div style="background-color:pink; height: 200px ; " class="card-body">
+          <h4 class="card-title">
+            <a href="/notice/getMeet?category={{category}}&id={{meeting.m_id}}">{{meeting.m_name}}</a>
+          </h4>
+          <h5>{{meeting.m_content}}</h5>
+          <div
+            style="display: -webkit-box; display: -ms-flexbox; display: box; margin-top:1px; max-height:80px; overflow:hidden; vertical-align:top; text-overflow: ellipsis; word-break:break-all; -webkit-box-orient:vertical; -webkit-line-clamp:3">
+            {{meeting.m_body}}
           </div>
         </div>
+        <div class="card-footer">
 
-        {%endfor%}
-
-
-
-
+        </div>
       </div>
-      <!-- /.row -->
-
     </div>
-    <!-- /.col-lg-9 -->
+    {%endfor%}
+    <hr />
+    {%endif%}
+  </div>
+  <div class="row">
+    {%for meeting in meetingOthers%}
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="card h-100">
+        <a href="#"><img class="card-img-top" src="{{meeting.m_image.url}}" style="height: 208px;" alt=""></a>
+        <div style=" height: 200px ; " class="card-body">
+          <h4 class="card-title">
+            <a href="/notice/getMeet?id={{meeting.m_id}}&category={{category}}">{{meeting.m_name}}</a>
+          </h4>
+          <h5>{{meeting.m_content}}</h5>
+          <div
+            style="display: -webkit-box; display: -ms-flexbox; display: box; margin-top:1px; max-height:80px; overflow:hidden; vertical-align:top; text-overflow: ellipsis; word-break:break-all; -webkit-box-orient:vertical; -webkit-line-clamp:3">
+            {{meeting.m_body}}
+          </div>
+        </div>
+        <div class="card-footer">
+
+        </div>
+      </div>
+    </div>
+    {%endfor%}
+
 
   </div>
   <!-- /.row -->
+
 </div>
-<!-- /.container -->
+<!-- /.col-lg-9 -->
+
 
 {%endblock content%}

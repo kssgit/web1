@@ -11,8 +11,23 @@ from django.db.models import Count
 # 메인 페이지
 # top3 모임 불러오기
 def index(request):
+    res_data = {}
+    meetsTop3 = Joinus.objects.values('m_id').annotate(
+        Count('u_id')).order_by('-u_id__count')
 
-    return render(request, 'joinus_app/index.html')
+    meetings = []
+
+    meeting = apps.get_model(
+        app_label='noticeboard_app', model_name='meetings')
+    if meetsTop3:
+        for index, meet in enumerate(meetsTop3):
+            if index < 3:
+                m = meeting.objects.get(m_id=meet['m_id'])
+                meetings.append(m)
+        res_data['Top3Meeting'] = meetings
+    else:
+        res_data['Top3Meeting'] = meetings
+    return render(request, 'joinus_app/index.html', res_data)
 
 
 # 로그인 페이지 이동
@@ -54,63 +69,34 @@ def loginCheck(request):
 # 각 카테고리별 모임페이지 이동
 
 def noticeboard(request):
+    category = request.GET['category']
+    # 해당 카테고리 모임번호를 가입자 순위순으로 가져오기
+    meets = Joinus.objects.filter(category=category).values(
+        'm_id').annotate(Count('u_id')).order_by('-u_id__count')
 
-    res_data = {}
-    # select count(u_id) as count , m_id from joinus where category='공부'GROUP by m_id order by count(u_id) desc;
-    if 1 == int(request.GET['category']):
-        meets = Joinus.objects.filter(category="요리").values(
-            'm_id').annotate(Count('u_id')).order_by('-u_id__count')
-
-        meeting = apps.get_model(
-            app_label='noticeboard_app', model_name='meetings')
-        meetingorder = []
-
-        if meets:
-            for meet in meets:
+    meeting = apps.get_model(
+        app_label='noticeboard_app', model_name='meetings')
+    meetingTop3 = []
+    meetingOthers = []
+    if meets:
+        for index, meet in enumerate(meets):
+            if index < 3:  # top3까지만
                 meeting_top = meeting.objects.get(m_id=meet['m_id'])
-                meetingorder.append(meeting_top)
+                meetingTop3.append(meeting_top)
+    else:
+        # 가입자수가 아예없는 카테고리는 모임 생성 순으로 전체 다 표시하게끔
+        print("요리")
+        meetingnojoin = meeting.objects.filter(m_category=category)
+        for m in meetingnojoin:
+            meetingOthers.append(m)
+        res_data = {"meetingOthers": meetingOthers, "category": category}
+        return render(request, 'joinus_app/category.html', res_data)
+    # Top3 순으로 정렬후 아래에 모임 생성 순으로 표시
+    meetingother = meeting.objects.filter(m_category=category)
+    for m in meetingother:
+        meetingOthers.append(m)
 
-        else:
-            meeting_top = meeting.objects.filter(m_category="요리")
-            for m in meeting_top:
-                meetingorder.append(m)
+    res_data = {'meetingTop3': meetingTop3,
+                "meetingOthers": meetingOthers, "category": category}
 
-        res_data = {'meetingorder': meetingorder}
-
-    elif 2 == int(request.GET['category']):
-        meets = Joinus.objects.filter(category="공부").values(
-            'm_id').annotate(Count('u_id')).order_by('-u_id__count')
-
-        meeting = apps.get_model(
-            app_label='noticeboard_app', model_name='meetings')
-        meetingorder = []
-
-        if meets:
-            for meet in meets:
-                meeting_top = meeting.objects.get(m_id=meet['m_id'])
-                meetingorder.append(meeting_top)
-
-        else:
-            meeting_top = meeting.objects.filter(m_category="공부")
-            for m in meeting_top:
-                meetingorder.append(m)
-        res_data = {'meetingorder': meetingorder}
-
-    elif 3 == int(request.GET['category']):
-        meets = Joinus.objects.filter(category="스포츠").values(
-            'm_id').annotate(Count('u_id')).order_by('-u_id__count')
-
-        meeting = apps.get_model(
-            app_label='noticeboard_app', model_name='meetings')
-        meetingorder = []
-
-        if meets:
-            for meet in meets:
-                meeting_top = meeting.objects.get(m_id=meet['m_id'])
-                meetingorder.append(meeting_top)
-        else:
-            meeting_top = meeting.objects.filter(m_category="스포츠")
-            for m in meeting_top:
-                meetingorder.append(m)
-        res_data = {'meetingorder': meetingorder}
     return render(request, 'joinus_app/category.html', res_data)

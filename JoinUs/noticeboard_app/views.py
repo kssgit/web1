@@ -90,6 +90,7 @@ def updateMeetCheck(request):
 # 해당 카테고리로 가든 아님 요청 들어온 전 페이지로 가든
 def getMeet(request):
     id = request.GET['id']
+    category = request.GET['category']
     # db에서 정보 불러오기
     res_data = {}
     meeting = Meetings.objects.get(m_id=id)
@@ -104,7 +105,7 @@ def getMeet(request):
         app_label='joinus_app', model_name='joinus')
     join = joinus.objects.filter(m_id=id).count()
     res_data['count'] = join
-
+    res_data['category'] = category
     # 세션에 가입할 게시판 번호 등록
     request.session['join'] = id
     return render(request, 'noticeboard_app/getnoticeboard.html', res_data)
@@ -133,7 +134,7 @@ def updateMeet(request):
                 update_meet.save()
                 # 수정이 완료되면 세션에 등록된 게시판 번호 삭제
                 request.session.delete('update')
-            return redirect('/notice/getMeet?id='+m_id)
+            return redirect('/notice/getMeet?category='+update_meet.m_category+"&id="+id)
         else:
             return HttpResponseRedirect(reverse('index'))
     else:
@@ -161,7 +162,7 @@ def joinMeet(request):
                 for join in joincheck:
                     # 알아두자 requset에서 들어오는 파라미터는 str 로 들어온다는 것을 ....
                     if join.m_id == int(id):
-                        return redirect('/notice/getMeet?id='+id)
+                        return redirect('/notice/getMeetcategory='+check_join.m_category+"&id="+id)
                 raise Exception
 
             except Exception:
@@ -171,9 +172,9 @@ def joinMeet(request):
                 new_joinus = joinus(
                     u_id=user_id, m_id=id, category=category)
                 new_joinus.save()
-                return redirect('/notice/getMeet?id='+id)
+                return redirect('/notice/getMeet?category='+check_join.m_category+"&id="+id)
         else:
-            return redirect('/notice/getMeet?id='+id)
+            return redirect('/notice/getMeet?category='+check_join.m_category+"&id="+id)
 
     else:
         # 로그인 하지 않고 가입하면 로그인 페이지로 이동
