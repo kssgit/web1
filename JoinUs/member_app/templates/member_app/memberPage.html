@@ -1,0 +1,68 @@
+{%extends "base.html" %}
+{%block content%}
+{% load static %}
+
+
+<!-- Page Content -->
+<div class="container">
+  <div class="row">
+    <!-- 입력폼 그리드 -->
+    <div class="col-lg-5" style="margin:auto;">
+
+      <!-- form -->
+      <form id="join-form" action="/member/register/" method="POST">{% csrf_token %}
+        <!-- 이메일 입력 -->
+        <div class="input-group mt-3 mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1"
+              style="width: 95.53px;">&nbsp;&nbsp;E-mail&nbsp;&nbsp;</span>
+          </div>
+          <input type="text" id="user-email" name="user_email" class="form-control" placeholder="Input e-mail"
+            aria-label="Input e-mail" aria-describedby="basic-addon1" required></input>
+          <!-- E-mail 중복확인 -->
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" id="btn-email" email_check_result="fail"
+              type="button">중복확인</button>
+          </div>
+
+        </div>
+
+        <!-- 별명 입력 -->
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Nickname</span>
+          </div>
+          <input type="text" id="user-nickname" name="user_nickname" class="form-control" placeholder="Input Nickname"
+            aria-label="Input Nicname" aria-describedby="basic-addon1" required></input>
+          <!-- Nickname 중복확인 -->
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" id="btn-nickname" nickname_check_result="fail"
+              type="button">중복확인</button>
+          </div>
+
+        </div>
+
+        <!-- 비번 입력 -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1" style="width: 95.53px;">비밀번호</span>
+          </div>
+          <input type="password" name="user_pw" class="form-control" placeholder="Input Password"
+            aria-label="Input Password" aria-describedby="basic-addon1" required>
+
+          <!-- 회원가입 버튼 -->
+          <button id="regi-btn" type="submit" class="btn btn-dark btn-sm btn-block"
+            style="height: 40px; margin-top: 5px;">
+            회원 가입하기</button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</div>
+<!-- Page Content -->
+<!-- base.html 과 는 별계로 jquery를 따로 선언 해줘야 한다 -->
+<script src="{%static 'vendor/jquery/jquery.min.js'%}"></script>
+<script src="{%static 'js/signin.js'%}"></script>
+{%endblock content%}
