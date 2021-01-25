@@ -28,7 +28,11 @@
   <!-- /.card -->
   <div style="float: right;">
     {%if request.session.user_id != meeting.m_manager_id%}
+    {%if checkjoin == 1 %}
     <button type="button" class="btn btn-primary" onclick="location.href='/notice/joinMeet'">가입</button>
+    {%else%}
+    <button type="button" class="btn btn-primary" onclick="location.href='/notice/meetSecede'">탈퇴</button>
+    {%endif%}
     {%endif%}
     {%if request.session.user_id == meeting.m_manager_id%}
     <button type="button" class="btn btn-secondary"

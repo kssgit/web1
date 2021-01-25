@@ -108,6 +108,15 @@ def getMeet(request):
     res_data['category'] = category
     # 세션에 가입할 게시판 번호 등록
     request.session['join'] = id
+    # 이미 가입한 유저 정보 확인
+    checkjoin = joinus.objects.filter(u_id=request.session.get('user_id'))
+    result = 1
+    for m in checkjoin:
+        if int(id) == m.m_id:
+            result = 0
+            break
+    print(result)
+    res_data['checkjoin'] = result
     return render(request, 'noticeboard_app/getnoticeboard.html', res_data)
 
 
@@ -162,7 +171,7 @@ def joinMeet(request):
                 for join in joincheck:
                     # 알아두자 requset에서 들어오는 파라미터는 str 로 들어온다는 것을 ....
                     if join.m_id == int(id):
-                        return redirect('/notice/getMeetcategory='+check_join.m_category+"&id="+id)
+                        return redirect('/notice/getMeet?category='+check_join.m_category+"&id="+id)
                 raise Exception
 
             except Exception:
@@ -179,6 +188,21 @@ def joinMeet(request):
     else:
         # 로그인 하지 않고 가입하면 로그인 페이지로 이동
         return HttpResponseRedirect(reverse('signupPage'))
+
+
+# 모임 탈퇴
+def meetSecede(request):
+    if request.session.get('user_id'):
+        u_id = request.session.get('user_id')
+        joinus = apps.get_model(app_label='joinus_app', model_name='Joinus')
+        deljoin = joinus.objects.get(
+            u_id=u_id, m_id=request.session.get('join'))
+
+        deljoin.delete()
+        return redirect('/notice/getMeet?category='+deljoin.category+"&id="+request.session.get('join'))
+    else:
+        return HttpResponseRedirect(reverse('signupPage'))
+    pass
 
 
 # 모임 삭제

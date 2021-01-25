@@ -1,0 +1,19 @@
+#content.section_home {
+  line-height: 14px;
+  zoom: 1;
+  padding: 16px 12px 94px;
+}
+
+#content {
+  position: relative;
+  padding: 32px 51px 95px;
+}
+
+div {
+  display: block;
+}
+#content:after {
+  display: block;
+  clear: both;
+  content: '';
+}

@@ -50,14 +50,33 @@ def nicknameCheck(request):
     return JsonResponse(result)
 
 
-# 회원 페이지 이동
-def userpage(request):
-    pass
+# 회원 페이지 이동 및 회원정보 가져오기
+def memberPage(request):
+    # 로그인 했는지 확인
+    if request.session.get('user_id'):
+        res_data = {}
+        # 유저 정보 담기
+        user_id = request.session.get('user_id')
+        user_data = User.objects.get(u_id=user_id)
+        res_data['user_data'] = user_data
+        # ---
+        # 생성한 모임 가져오기
+        meeting = apps.get_model(
+            app_label='noticeboard_app', model_name='Meetings')
+        createMeet = meeting.objects.filter(m_manager_id=user_id)
+        res_data['createMeet'] = createMeet
 
-
-# 회원 정보 가져오기
-def getUser(request):
-    pass
+        # 가입한 모임 가져오기
+        joinus = apps.get_model(app_label='joinus_app', model_name='Joinus')
+        userjoin = joinus.objects.filter(u_id=user_id)
+        meetname = []
+        for m in userjoin:
+            name = meeting.objects.get(m_id=m.m_id)
+            meetname.append(name)
+        res_data['userjoin'] = meetname
+        return render(request, 'member_app/memberPage.html', res_data)
+    else:
+        return HttpResponseRedirect(reverse('signupPage'))
 
 
 # 회원 정보 수정 (Nicname만 )

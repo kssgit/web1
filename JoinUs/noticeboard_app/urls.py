@@ -12,6 +12,6 @@ urlpatterns = [
     path('update/', views.updateMeet, name="updateMeet"),
     path('deleteMeet/', views.deleteMeet, name="deleteMeet"),
     path('joinMeet/', views.joinMeet, name="joinMeet"),
-
+    path('meetSecede/', views.meetSecede, name="meetSecede"),
 
 ]

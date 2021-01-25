@@ -34,6 +34,7 @@ def index(request):
 def signupPage(request):
     if request.session.get('user'):
         return HttpResponseRedirect(reverse('index'))
+
     return render(request, 'joinus_app/signup.html')
 
 
