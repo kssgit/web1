@@ -132,9 +132,11 @@ def updateMeet(request):
             m_url = request.POST['m_url']
             try:
                 m_image = request.FILES['m_image']
+                # 기존 이미지 파일 삭제후
+                update_meet.m_image.delete()
                 update_meet.m_image = m_image
             except Exception:
-                print("이미지 없음")
+                pass
             finally:
                 update_meet.m_name = m_name
                 update_meet.m_content = m_content
@@ -143,7 +145,7 @@ def updateMeet(request):
                 update_meet.save()
                 # 수정이 완료되면 세션에 등록된 게시판 번호 삭제
                 request.session.delete('update')
-            return redirect('/notice/getMeet?category='+update_meet.m_category+"&id="+id)
+            return redirect('/notice/getMeet?category='+update_meet.m_category+"&id="+m_id)
         else:
             return HttpResponseRedirect(reverse('index'))
     else:
@@ -208,13 +210,14 @@ def meetSecede(request):
 # 모임 삭제
 def deleteMeet(request):
     if request.session.get('user'):
+        print(request.GET['id'])
         check_meet = Meetings.objects.get(m_id=request.GET['id'])
         if request.session.get('user_id') == check_meet.m_manager_id:
             check_meet.delete()
             # joinus 테이블의 해당 모임 id도 삭제
             joinus = apps.get_model(
                 app_label='joinus_app', model_name='joinus')
-            select_join = joinus.objects.get(m_id=request.GET['id'])
+            select_join = joinus.objects.filter(m_id=request.GET['id'])
             select_join.delete()
             return HttpResponseRedirect(reverse('index'))
         else:

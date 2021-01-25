@@ -22,6 +22,7 @@ def index(request):
     if meetsTop3:
         for index, meet in enumerate(meetsTop3):
             if index < 3:
+                print(meet['m_id'])
                 m = meeting.objects.get(m_id=meet['m_id'])
                 meetings.append(m)
         res_data['Top3Meeting'] = meetings
@@ -72,32 +73,34 @@ def loginCheck(request):
 def noticeboard(request):
     category = request.GET['category']
     # 해당 카테고리 모임번호를 가입자 순위순으로 가져오기
-    meets = Joinus.objects.filter(category=category).values(
-        'm_id').annotate(Count('u_id')).order_by('-u_id__count')
+    try:
+        meets = Joinus.objects.filter(category=category).values(
+            'm_id').annotate(Count('u_id')).order_by('-u_id__count')
 
-    meeting = apps.get_model(
-        app_label='noticeboard_app', model_name='meetings')
-    meetingTop3 = []
-    meetingOthers = []
-    if meets:
-        for index, meet in enumerate(meets):
-            if index < 3:  # top3까지만
-                meeting_top = meeting.objects.get(m_id=meet['m_id'])
-                meetingTop3.append(meeting_top)
-    else:
-        # 가입자수가 아예없는 카테고리는 모임 생성 순으로 전체 다 표시하게끔
-        print("요리")
-        meetingnojoin = meeting.objects.filter(m_category=category)
-        for m in meetingnojoin:
+        meeting = apps.get_model(
+            app_label='noticeboard_app', model_name='meetings')
+        meetingTop3 = []
+        meetingOthers = []
+        if meets:
+            for index, meet in enumerate(meets):
+                if index < 3:  # top3까지만
+                    meeting_top = meeting.objects.get(m_id=meet['m_id'])
+                    meetingTop3.append(meeting_top)
+        else:
+            # 가입자수가 아예없는 카테고리는 모임 생성 순으로 전체 다 표시하게끔
+            print("요리")
+            meetingnojoin = meeting.objects.filter(m_category=category)
+            for m in meetingnojoin:
+                meetingOthers.append(m)
+            res_data = {"meetingOthers": meetingOthers, "category": category}
+            return render(request, 'joinus_app/category.html', res_data)
+        # Top3 순으로 정렬후 아래에 모임 생성 순으로 표시
+        meetingother = meeting.objects.filter(m_category=category)
+        for m in meetingother:
             meetingOthers.append(m)
-        res_data = {"meetingOthers": meetingOthers, "category": category}
-        return render(request, 'joinus_app/category.html', res_data)
-    # Top3 순으로 정렬후 아래에 모임 생성 순으로 표시
-    meetingother = meeting.objects.filter(m_category=category)
-    for m in meetingother:
-        meetingOthers.append(m)
 
-    res_data = {'meetingTop3': meetingTop3,
-                "meetingOthers": meetingOthers, "category": category}
-
+        res_data = {'meetingTop3': meetingTop3,
+                    "meetingOthers": meetingOthers, "category": category}
+    except Exception:
+        res_data = {}
     return render(request, 'joinus_app/category.html', res_data)
