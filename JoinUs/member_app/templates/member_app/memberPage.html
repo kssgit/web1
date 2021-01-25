@@ -9,20 +9,39 @@
 
       <div class="col-lg-4 col-md-6 mb-4">
         <div class="card h-100">
-          <h4 class="card-title">회원 정보</h4>
-          <div class="card-body" style="padding: 0;">
+          <h4 class="card-title" style="margin: auto;">회원 정보</h4>
+          <hr style="margin: 0;" />
+          <div class="card-body" style="padding: 0; margin-top: 10px;">
             <p>회원 이메일 : {{user_data.user_email}}</p>
-            <p>회원 닉네임 : {{user_data.user_nickname}}</p>
+            <p id='user-nickname'> 회원 닉네임 : {{user_data.user_nickname}}</p>
+            </p>
+
           </div>
           <div class="card-footer">
-            <a href="#">회원 정보 수정</a>
+            <a href="#" style="float:left;" onclick="changeNickname()">닉네임 변경 </a>
+
+            <!-- promt 창으로 한번 확인 하기  -->
+            <a href="#" style="float: right;" onclick="deleteUser()">회원 탈퇴</a>
+          </div>
+          <div id="checkpw" style="display: none;">
+            <form action="{%url 'deleteUser'%}" method="POST">{% csrf_token %}
+              <div class="input-group mt-0 mb-0">
+                <input type="password" id="user-pw" name="checkpw" class="form-control" placeholder="Password"
+                  aria-label="Input e-mail" aria-describedby="basic-addon1" required></input>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" id="btn-email" email_check_result="fail"
+                    type="submit">탈퇴</button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
 
       <div class="col-lg-4 col-md-6 mb-4">
         <div class="card h-100">
-          <h4 class="card-title">생성한 모임</h4>
+          <h4 class="card-title" style="margin: auto;">생성한 모임</h4>
+          <hr style="margin: 0;" />
           <div class="card-body" style="padding: 0;">
             {%for m in createMeet%}
             <p>
@@ -38,7 +57,8 @@
 
       <div class="col-lg-4 col-md-6 mb-4">
         <div class="card h-100">
-          <h4 class="card-title">가입한 모임</h4>
+          <h4 class="card-title" style="margin: auto;">가입한 모임</h4>
+          <hr style="margin: 0;" />
           <div class="card-body" style="padding: 0;">
             {%for m in userjoin%}
             <p>
@@ -61,5 +81,5 @@
 <!-- Page Content -->
 <!-- base.html 과 는 별계로 jquery를 따로 선언 해줘야 한다 -->
 <script src="{%static 'vendor/jquery/jquery.min.js'%}"></script>
-<script src="{%static 'js/signin.js'%}"></script>
+<script src="{%static 'js/userPage.js'%}"></script>
 {%endblock content%}

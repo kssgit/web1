@@ -14,4 +14,6 @@ urlpatterns = [
     path('joinMeet/', views.joinMeet, name="joinMeet"),
     path('meetSecede/', views.meetSecede, name="meetSecede"),
 
+
+
 ]

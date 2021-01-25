@@ -7,6 +7,8 @@ urlpatterns = [
     path('emailCheck/', views.emailCheck, name="emailCheck"),
     path('nicknameCheck/', views.nicknameCheck, name="nicknameCheck"),
     path('memberPage/', views.memberPage, name="memberPage"),
+    path('updateNickname/', views.updateNickname, name="updateNickname"),
+    path('deleteUser/', views.deleteUser, name="deleteUser"),
 
 
 ]
