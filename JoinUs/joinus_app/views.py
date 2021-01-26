@@ -8,6 +8,8 @@ from django.apps import apps
 from django.db.models import Count
 # 장고 로그아웃 관리
 from django.contrib import auth
+# 장고 비번 암호화 라이브러리
+import hashlib
 
 
 # 메인 페이지
@@ -63,8 +65,10 @@ def loginCheck(request):
         res_data['error'] = '일치하는 이메일이 없습니다.'
         # 보류
         return render(request, 'joinus_app/signin.html', res_data)
-
-    if user_pw != user_check.user_pw:
+    # 로그인 유저비번 암호화
+    encoded_pw = user_pw.encode()
+    encrypeted_pw = hashlib.sha256(encoded_pw).hexdigest()
+    if encrypeted_pw != user_check.user_pw:
         res_data['error'] = '비밀번호가 일치하지 않습니다.'
         return render(request, 'joinus_app/signin.html', res_data)
 

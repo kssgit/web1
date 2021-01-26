@@ -5,10 +5,11 @@ from django.urls import reverse
 from django.apps import apps  # 다른 어플 모델 참조
 # 장고 로그아웃 관리
 from django.contrib import auth
+# 장고 비번 암호화 라이브러리
+import hashlib
+
 
 # 회원 가입 페이지로 이동
-
-
 def signup(request):
     if request.session.get('user'):
         return HttpResponseRedirect(reverse('index'))
@@ -23,8 +24,12 @@ def register(request):
         user_email = request.POST['user_email']
         user_nickname = request.POST['user_nickname']
         user_pw = request.POST['user_pw']
+        # 유저 비번 암호화
+        encoded_pw = user_pw.encode()
+        encrypted_pw = hashlib.sha256(encoded_pw).hexdigest()
+
         new_user = User(user_email=user_email,
-                        user_nickname=user_nickname, user_pw=user_pw)
+                        user_nickname=user_nickname, user_pw=encrypted_pw)
         new_user.save()
         # 다른 view 메서드 바로 참조 가능(url아님)
         return HttpResponseRedirect(reverse("signinPage"))
