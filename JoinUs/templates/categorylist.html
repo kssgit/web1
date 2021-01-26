@@ -9,6 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
+
   <title>Join US</title>
 
   <!-- Bootstrap core CSS -->
@@ -48,10 +49,10 @@
           </li>
           {%else%}
           <li class="nav-item">
-            <a class="nav-link" href="/signup">로그인</a>
+            <a class="nav-link" href="/signin">로그인</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/member/signin">회원가입</a>
+            <a class="nav-link" href="/member/signup">회원가입</a>
           </li>
           {%endif%}
         </ul>
@@ -69,20 +70,20 @@
 
         <h1 class="my-4">Meeting Category</h1>
         <div class="list-group" style="text-align: center;">
-          {%if category == '요리'%}
-          <a href="/noticeboard?category=요리" id="cook" class="list-group-item active">요리</a>
+          {%if category == '음식'%}
+          <a href="/noticeboard?category=음식" id="cook" class="list-group-item active">음식</a>
           <a href='/noticeboard?category=공부' id="study" class="list-group-item">공부</a>
           <a href="/noticeboard?category=스포츠" id="sports" class="list-group-item">스포츠</a>
           {%elif category == '공부'%}
-          <a href="/noticeboard?category=요리" id="cook" class="list-group-item ">요리</a>
+          <a href="/noticeboard?category=음식" id="cook" class="list-group-item ">음식</a>
           <a href='/noticeboard?category=공부' id="study" class="list-group-item active">공부</a>
           <a href="/noticeboard?category=스포츠" id="sports" class="list-group-item">스포츠</a>
           {%elif category == '스포츠'%}
-          <a href="/noticeboard?category=요리" id="cook" class="list-group-item ">요리</a>
+          <a href="/noticeboard?category=음식" id="cook" class="list-group-item ">음식</a>
           <a href='/noticeboard?category=공부' id="study" class="list-group-item">공부</a>
           <a href="/noticeboard?category=스포츠" id="sports" class="list-group-item active">스포츠</a>
           {%elif category is null%}
-          <a href="/noticeboard?category=요리" id="cook" class="list-group-item ">요리</a>
+          <a href="/noticeboard?category=음식" id="cook" class="list-group-item ">음식</a>
           <a href='/noticeboard?category=공부' id="study" class="list-group-item">공부</a>
           <a href="/noticeboard?category=스포츠" id="sports" class="list-group-item">스포츠</a>
           {%endif%}

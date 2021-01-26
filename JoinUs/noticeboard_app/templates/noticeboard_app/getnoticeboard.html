@@ -12,7 +12,10 @@
       src="{{meeting.m_image.url}}" alt="">
     <div class="card-body">
       <h2 class="card-title">{{meeting.m_name}}</h2>
-      <p>{{nickname}}</p>
+      <div>
+
+        <p style="float: right;">관리자 : <b>{{nickname}}</b> 님</p>
+      </div>
       <!-- 관리자 옆에 조그만하게 추가 -->
       <h4 class='mt-4'>{{meeting.m_content}}</h4>
       <hr />
@@ -20,18 +23,20 @@
 
       <a href='{{meeting.m_url}}'>카카오 오픈 채팅 방 ^^</a>
 
-
-      <!-- 가입자수 -->
-      <p>{{count}}</p>
+      <div>
+        <!-- 가입자수 -->
+        <p style="float: right ;">가입자수 : <b>{{count}}</b></p>
+      </div>
     </div>
   </div>
   <!-- /.card -->
+
   <div style="float: right;">
     {%if request.session.user_id != meeting.m_manager_id%}
     {%if checkjoin == 1 %}
-    <button type="button" class="btn btn-primary" onclick="location.href='/notice/joinMeet'">가입</button>
+    <button type="button" class="btn btn-primary" onclick="location.href='/notice/joinMeet?m_id={{m_id}}'">가입</button>
     {%else%}
-    <button type="button" class="btn btn-primary" onclick="location.href='/notice/meetSecede'">탈퇴</button>
+    <button type="button" class="btn btn-primary" onclick="location.href='/notice/meetSecede?m_id={{m_id}}'">탈퇴</button>
     {%endif%}
     {%endif%}
     {%if request.session.user_id == meeting.m_manager_id%}
@@ -40,11 +45,7 @@
     <button type="button" class="btn btn-secondary"
       onclick="location.href='/notice/deleteMeet?id={{meeting.m_id}}'">삭제</button>
     {%endif%}
-    <!-- 게시글 수정 , 삭제 , 가입 버튼 작성  -->
-
   </div>
 </div>
-
-
 
 {%endblock content%}

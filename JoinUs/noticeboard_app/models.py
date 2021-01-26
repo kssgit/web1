@@ -22,10 +22,12 @@ class Meetings(models.Model):
     m_image = models.ImageField(
         upload_to='images/', blank=True, null=False, verbose_name='이미지파일')
 
+
+# # 업로드된 파일이 있는 게시글을 삭제하거나 수정할 시 FileField에는 파일의 path만 담고 있기 때문에 Django MEDIA_ROOT에 저장된 파일자체는 삭제되거나 수정되지 않는다
+# # 따라서 아래 매서드를 이용해 이미지도 함께 삭제해준다
+# # 모임 삭제시 등록된 이미지 파일도 같이 삭제해준다
+
     def delete(self, *args, **kargs):
         if self.m_image:
             os.remove(os.path.join(settings.MEDIA_ROOT, self.m_image.path))
         super(Meetings, self).delete(*args, **kargs)
-# # 업로드된 파일이 있는 게시글을 삭제하거나 수정할 시 FileField에는 파일의 path만 담고 있기 때문에 Django MEDIA_ROOT에 저장된 파일자체는 삭제되거나 수정되지 않는다
-# # 따라서 아래 매서드를 이용해 이미지도 함께 삭제해준다
-# # 모임 삭제시 등록된 이미지 파일도 같이 삭제해준다

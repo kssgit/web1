@@ -11,7 +11,7 @@ def createPage(request):
     if request.session.get('user'):
         return render(request, 'noticeboard_app/noticeboard.html')
     else:
-        return HttpResponseRedirect(reverse('signupPage'))
+        return HttpResponseRedirect(reverse('signinPage'))
 
 
 # 새로운 모임 생성
@@ -73,16 +73,19 @@ def meetnameCheck(request):
 # 모임 정보 수정 페이지 전환
 def updateMeetCheck(request):
     if request.session.get('user'):
+
         res_data = {}
         id = request.GET['id']
-        print(id)
-        meeting = Meetings.objects.get(m_id=id)
-        res_data['meeting'] = meeting
-        # 세션에 수정할 게시판 번호 등록
-        request.session['update'] = id
-        return render(request, 'noticeboard_app/updatenotice.html', res_data)
+        try:
+            meeting = Meetings.objects.get(m_id=id)
+            res_data['meeting'] = meeting
+            # 세션에 수정할 게시판 번호 등록
+            request.session['update'] = id
+            return render(request, 'noticeboard_app/updatenotice.html', res_data)
+        except Exception:
+            return HttpResponseRedirect(reverse('index'))
     else:
-        return HttpResponseRedirect(reverse('signupPage'))
+        return HttpResponseRedirect(reverse('signinPage'))
 
 
 # 모임 상세 정보 불러오기
@@ -93,31 +96,35 @@ def getMeet(request):
     category = request.GET['category']
     # db에서 정보 불러오기
     res_data = {}
-    meeting = Meetings.objects.get(m_id=id)
-    # 유저정보에서 해당 개시글 작성자의 닉네임 가져오기
-    member = apps.get_model(app_label='member_app', model_name='user')
-    member_name = member.objects.get(u_id=meeting.m_manager_id)
-    res_data['nickname'] = member_name.user_nickname
-    res_data['meeting'] = meeting
-    # 가입자수 가져오기
-    # select count(u_id) from joinus where m_id=id;
-    joinus = apps.get_model(
-        app_label='joinus_app', model_name='joinus')
-    join = joinus.objects.filter(m_id=id).count()
-    res_data['count'] = join
-    res_data['category'] = category
-    # 세션에 가입할 게시판 번호 등록
-    request.session['join'] = id
-    # 이미 가입한 유저 정보 확인
-    checkjoin = joinus.objects.filter(u_id=request.session.get('user_id'))
-    result = 1
-    for m in checkjoin:
-        if int(id) == m.m_id:
-            result = 0
-            break
-    print(result)
-    res_data['checkjoin'] = result
-    return render(request, 'noticeboard_app/getnoticeboard.html', res_data)
+    try:
+        meeting = Meetings.objects.get(m_id=id)
+        # 유저정보에서 해당 개시글 작성자의 닉네임 가져오기
+        member = apps.get_model(app_label='member_app', model_name='user')
+        member_name = member.objects.get(u_id=meeting.m_manager_id)
+        res_data['nickname'] = member_name.user_nickname
+        res_data['meeting'] = meeting
+        # 가입자수 가져오기
+        # select count(u_id) from joinus where m_id=id;
+        joinus = apps.get_model(
+            app_label='joinus_app', model_name='joinus')
+        join = joinus.objects.filter(m_id=id).count()
+        res_data['count'] = join
+        res_data['category'] = category
+        # 세션에 가입할 게시판 번호 등록
+        res_data['m_id'] = id
+        # 이미 가입한 유저 정보 확인
+        checkjoin = joinus.objects.filter(u_id=request.session.get('user_id'))
+        result = 1
+        for m in checkjoin:
+            if int(id) == m.m_id:
+                result = 0
+                break
+
+        res_data['checkjoin'] = result
+        return render(request, 'noticeboard_app/getnoticeboard.html', res_data)
+    except Exception:
+        # 잘못된 경로로 없는 모임 페이지를 요청할 경우
+        return redirect("/noticeboard?category="+category)
 
 
 # 수정한 모임 정보 등록
@@ -143,20 +150,19 @@ def updateMeet(request):
                 update_meet.m_body = m_body
                 update_meet.m_url = m_url
                 update_meet.save()
-                # 수정이 완료되면 세션에 등록된 게시판 번호 삭제
-                request.session.delete('update')
+
             return redirect('/notice/getMeet?category='+update_meet.m_category+"&id="+m_id)
         else:
             return HttpResponseRedirect(reverse('index'))
     else:
-        return HttpResponseRedirect(reverse('signupPage'))
+        return HttpResponseRedirect(reverse('signinPage'))
 
 
 # 모임 가입
 def joinMeet(request):
     # 가입된 유저인지 확인
     if request.session.get('user'):
-        id = request.session.get('join')
+        id = request.GET['m_id']
         # 잘못된 경로로 게시판 작성자가 가입 못하게 하기 위한 방법
         check_join = Meetings.objects.get(m_id=id)
         if request.session.get('user_id') != check_join.m_manager_id:
@@ -168,7 +174,7 @@ def joinMeet(request):
                 # 해당 유저가 가입한 모임 id 들 가져오기
                 joincheck = joinus.objects.filter(
                     u_id=request.session.get('user_id'))
-                print("에러 안남")
+
                 # 해당 유저가 가입한 모임들하고 비교후 있으면 해당 페이지로 리턴
                 for join in joincheck:
                     # 알아두자 requset에서 들어오는 파라미터는 str 로 들어온다는 것을 ....
@@ -189,7 +195,7 @@ def joinMeet(request):
 
     else:
         # 로그인 하지 않고 가입하면 로그인 페이지로 이동
-        return HttpResponseRedirect(reverse('signupPage'))
+        return HttpResponseRedirect(reverse('signinPage'))
 
 
 # 모임 탈퇴
@@ -198,29 +204,32 @@ def meetSecede(request):
         u_id = request.session.get('user_id')
         joinus = apps.get_model(app_label='joinus_app', model_name='Joinus')
         deljoin = joinus.objects.get(
-            u_id=u_id, m_id=request.session.get('join'))
+            u_id=u_id, m_id=request.GET['m_id'])
 
         deljoin.delete()
-        return redirect('/notice/getMeet?category='+deljoin.category+"&id="+request.session.get('join'))
+        return redirect('/notice/getMeet?category='+deljoin.category+"&id="+request.GET['m_id'])
     else:
-        return HttpResponseRedirect(reverse('signupPage'))
+        return HttpResponseRedirect(reverse('signinPage'))
     pass
 
 
 # 모임 삭제
 def deleteMeet(request):
     if request.session.get('user'):
-        print(request.GET['id'])
-        check_meet = Meetings.objects.get(m_id=request.GET['id'])
-        if request.session.get('user_id') == check_meet.m_manager_id:
-            check_meet.delete()
-            # joinus 테이블의 해당 모임 id도 삭제
-            joinus = apps.get_model(
-                app_label='joinus_app', model_name='joinus')
-            select_join = joinus.objects.filter(m_id=request.GET['id'])
-            select_join.delete()
-            return HttpResponseRedirect(reverse('index'))
-        else:
+        try:
+            check_meet = Meetings.objects.get(m_id=request.GET['id'])
+            if request.session.get('user_id') == check_meet.m_manager_id:
+                check_meet.delete()
+                # joinus 테이블의 해당 모임 id도 삭제
+                joinus = apps.get_model(
+                    app_label='joinus_app', model_name='joinus')
+                select_join = joinus.objects.filter(m_id=request.GET['id'])
+                select_join.delete()
+                return HttpResponseRedirect(reverse('index'))
+            else:
+                return HttpResponseRedirect(reverse('index'))
+        # 해당 모임이 없을 때 요청이 들어온 경우
+        except Exception:
             return HttpResponseRedirect(reverse('index'))
     else:
-        return HttpResponseRedirect(reverse('signupPage'))
+        return HttpResponseRedirect(reverse('signinPage'))

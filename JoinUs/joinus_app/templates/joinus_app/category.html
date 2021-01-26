@@ -5,7 +5,7 @@
 
 <div class="col-lg-9" style="margin-top: 5%;">
   <div style="text-align: center; float: right;">
-    <a href="/notice/createPage" class="list-group-item" style="background-color: rgb(153, 153, 143);">모임 만들기</a>
+    <a href="/notice/createPage" class="list-group-item active" style="border-radius: 15px;">모임 만들기</a>
   </div>
   {%if meetingTop3%}
   <h1>TOP3 Meetings</h1>
@@ -17,20 +17,19 @@
     {%for meeting in meetingTop3%}
     <div class="col-lg-4 col-md-6 mb-4">
       <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="{{meeting.m_image.url}}" style="height: 208px;" alt=""></a>
+        <a href="/notice/getMeet?category={{category}}&id={{meeting.m_id}}"><img class="card-img-top"
+            src="{{meeting.m_image.url}}" style="height: 208px;" alt=""></a>
         <div style="background-color:pink; height: 200px ; " class="card-body">
           <h4 class="card-title">
             <a href="/notice/getMeet?category={{category}}&id={{meeting.m_id}}">{{meeting.m_name}}</a>
           </h4>
           <h5>{{meeting.m_content}}</h5>
           <div
-            style="display: -webkit-box; display: -ms-flexbox; display: box; margin-top:1px; max-height:80px; overflow:hidden; vertical-align:top; text-overflow: ellipsis; word-break:break-all; -webkit-box-orient:vertical; -webkit-line-clamp:3">
+            style="display: -webkit-box; display: -ms-flexbox; display: box; margin-top:1px; max-height:80px; overflow:hidden; vertical-align:top; text-overflow: ellipsis; word-break:break-all; -webkit-box-orient:vertical; -webkit-line-clamp:2">
             {{meeting.m_body}}
           </div>
         </div>
-        <div class="card-footer">
 
-        </div>
       </div>
     </div>
     {%endfor%}
@@ -41,10 +40,11 @@
     {%for meeting in meetingOthers%}
     <div class="col-lg-4 col-md-6 mb-4">
       <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="{{meeting.m_image.url}}" style="height: 208px;" alt=""></a>
+        <a href="/notice/getMeet?category={{category}}&id={{meeting.m_id}}"><img class="card-img-top"
+            src="{{meeting.m_image.url}}" style="height: 208px;" alt=""></a>
         <div style=" height: 200px ; " class="card-body">
           <h4 class="card-title">
-            <a href="/notice/getMeet?id={{meeting.m_id}}&category={{category}}">{{meeting.m_name}}</a>
+            <a href="/notice/getMeet?category={{category}}&id={{meeting.m_id}}">{{meeting.m_name}}</a>
           </h4>
           <h5>{{meeting.m_content}}</h5>
           <div
@@ -52,9 +52,7 @@
             {{meeting.m_body}}
           </div>
         </div>
-        <div class="card-footer">
 
-        </div>
       </div>
     </div>
     {%endfor%}
