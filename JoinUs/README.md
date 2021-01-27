@@ -15,8 +15,8 @@
 JOINUS/
 	JoinUs/
 		__init__
-        asgi
-		settings
+		asgi.py
+		settings.py
 		urls.py
 		wsgi.py
 	member_app/
