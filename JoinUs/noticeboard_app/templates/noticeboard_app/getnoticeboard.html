@@ -21,8 +21,11 @@
       <hr />
       <pre class="card-text">{{meeting.m_body}}</pre>
 
-      <a href='{{meeting.m_url}}'>카카오 오픈 채팅 방 ^^</a>
-
+      {%if request.session.user_id != meeting.m_manager_id%}
+      {%if checkjoin != 1 %}
+      <a href='{{meeting.m_url}}'>카카오 오픈 채팅 방 </a>
+      {%endif%}
+      {%endif%}
       <div>
         <!-- 가입자수 -->
         <p style="float: right ;">가입자수 : <b>{{count}}</b></p>

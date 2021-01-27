@@ -5,6 +5,7 @@
 
 <!-- Page Content -->
 <div class="container">
+  <h1>My-Page</h1>
   <div class="row" style="margin-top: 30px;">
 
     <div class="col-lg-4 col-md-6 mb-4">
@@ -44,7 +45,7 @@
         <hr style="margin: 0;" />
         <div class="card-body" style="padding: 0; margin:auto;">
           {%for m in createMeet%}
-          <p style="text-align: center;">
+          <p style="text-align: center; margin-bottom: 0px;">
             <a href="/notice/getMeet?category={{m.m_category}}&id={{m.m_id}}">
               {{m.m_name}}
             </a>
@@ -59,9 +60,9 @@
       <div class="card h-100">
         <h4 class="card-title" style="margin: auto;">가입한 모임</h4>
         <hr style="margin: 0;" />
-        <div class="card-body" style="padding: 0; margin:auto;">
+        <div class="card-body" style="padding: 0; margin:auto; ">
           {%for m in userjoin%}
-          <p style="text-align: center;">
+          <p style="text-align: center;margin-bottom: 0px;">
             <a href="/notice/getMeet?category={{m.m_category}}&id={{m.m_id}}">
               {{m.m_name}}
             </a>
@@ -77,9 +78,5 @@
   <!-- row -->
 </div>
 
-
-
-<!-- Bootstrap core JavaScript -->
-<script src="{%static 'vendor/jquery/jquery.min.js'%}"></script>
-<script src="{%static 'js/userPage.js'%}"></script>
+<script src="{%static 'js/userpage.js' %}" defer></script>
 {%endblock content%}

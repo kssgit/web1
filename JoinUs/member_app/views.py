@@ -32,13 +32,14 @@ def register(request):
                         user_nickname=user_nickname, user_pw=encrypted_pw)
         new_user.save()
         # 다른 view 메서드 바로 참조 가능(url아님)
+        # 로그인 페이지로 이동
         return HttpResponseRedirect(reverse("signinPage"))
     elif request.method == 'GET':
         res_data = {'error': '잘못된 경로입니다'}
         render(request, 'member_app/signup.html', res_data)
 
 
-# 이메일 중복 체크
+# 이메일 중복 체크(Ajax)
 def emailCheck(request):
     try:
         user = User.objects.get(user_email=request.GET['user_email'])
@@ -46,13 +47,13 @@ def emailCheck(request):
         user = None
     result = {
         'result': 'success',
-        # 'data' : model_to_dict(user)  # console에서 확인
+
         'data': "not exist" if user is None else "exist"
     }
     return JsonResponse(result)
 
 
-# 닉네임 중복 체크
+# 닉네임 중복 체크(Ajax)
 def nicknameCheck(request):
     try:
         nickname = User.objects.get(user_nickname=request.GET['user_nickname'])
@@ -60,7 +61,7 @@ def nicknameCheck(request):
         nickname = None
     result = {
         'result': 'success',
-        # 'data' : model_to_dict(nickname)  # console에서 확인
+
         'data': "not exist" if nickname is None else "exist"
     }
     return JsonResponse(result)
@@ -86,6 +87,7 @@ def updateNickname(request):
             'data': "not exist" if nickname is None else "exist"
         }
     else:
+        # 기존 유저 닉네임과 같다면 not exist 반환
         result = {
             'result': 'success',
             # 'data' : model_to_dict(nickname)  # console에서 확인
@@ -129,11 +131,12 @@ def deleteUser(request):
     if request.session.get('user_id'):
         if request.method == 'POST':
             checkpw = request.POST['checkpw']
-            print(checkpw)
+            encoded_pw = checkpw.encode()
+            encrypeted_pw = hashlib.sha256(encoded_pw).hexdigest()
             user_session = request.session.get('user_id')
             deluser = User.objects.get(u_id=user_session)
             # 입력된 패스워드와 기존 유저의 패스워드가 같을 경우 삭제
-            if checkpw == deluser.user_pw:
+            if encrypeted_pw == deluser.user_pw:
                 meets = apps.get_model(
                     app_label='noticeboard_app', model_name='meetings')
                 join = apps.get_model(
@@ -143,8 +146,7 @@ def deleteUser(request):
                 for m in delmeet:  # join에 등록된 모임도 삭제
                     deljoin = join.objects.filter(m_id=m.m_id)
                     deljoin.delete()
-
-                delmeet.delete()
+                    m.delete()
                 # 가입한 모임 삭제
                 deljoin = join.objects.filter(u_id=user_session)
                 deljoin.delete()
@@ -152,6 +154,7 @@ def deleteUser(request):
                 deluser.delete()
                 # 세션에 등록된 유저 정보도 삭제
                 request.session.clear()
+                # 로그아웃
                 auth.logout(request)
                 return HttpResponseRedirect(reverse('signinPage'))
             else:

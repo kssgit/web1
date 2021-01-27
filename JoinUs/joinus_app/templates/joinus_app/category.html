@@ -5,12 +5,14 @@
 
 <div class="col-lg-9" style="margin-top: 5%;">
   <div style="text-align: center; float: right;">
-    <a href="/notice/createPage" class="list-group-item active" style="border-radius: 15px;">모임 만들기</a>
+    <a href="{%url 'createPage'%}" class="list-group-item active" style="border-radius: 15px;">모임 만들기</a>
   </div>
   {%if meetingTop3%}
-  <h1>TOP3 Meetings</h1>
-  {%else%}
+  <h1>TOP Meetings</h1>
+  {%elif meetingOthers%}
   <h1>Meetings</h1>
+  {%else%}
+  <h1>NO Meetings</h1>
   {%endif%}
   <div class="row">
     {%if meetingTop3%}

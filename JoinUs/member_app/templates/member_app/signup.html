@@ -10,7 +10,7 @@
     <div class="col-lg-5" style="margin:auto;">
 
       <!-- form -->
-      <form id="join-form" action="/member/register/" method="POST">{% csrf_token %}
+      <form id="join-form" action="{%url 'register'%}" method="POST">{% csrf_token %}
         <!-- 이메일 입력 -->
         <div class="input-group mt-3 mb-1">
           <div class="input-group-prepend">

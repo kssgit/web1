@@ -7,7 +7,7 @@
     <!-- 입력폼 그리드 -->
     <div class="col-lg-4" style="margin: auto;">
       <!-- form   userID-->
-      <form id='join-form' action="/loginCheck/" method="post">{% csrf_token %}
+      <form id='join-form' action="{%url 'loginCheck'%}" method="post">{% csrf_token %}
         <!-- ID입력 -->
         <div class="input-group mt-3 mb-1">
           <div class="input-group-prepend">

@@ -9,29 +9,35 @@ from django.apps import apps
 def createPage(request):
     # 로그인 여부 확인
     if request.session.get('user'):
-        return render(request, 'noticeboard_app/noticeboard.html')
+        return render(request, 'noticeboard_app/createnoticeboard.html')
     else:
         return HttpResponseRedirect(reverse('signinPage'))
 
 
 # 새로운 모임 생성
 def createMeet(request):
-    m_category = request.POST['m_category']
-    m_name = request.POST['m_name']
-    m_content = request.POST['m_content']
-    m_body = request.POST['m_body']
-    m_manager_id = request.session.get('user_id')
-    m_url = request.POST['m_url']
-    m_image = request.FILES['m_image']
-    new_meet = Meetings(m_category=m_category, m_name=m_name, m_content=m_content, m_url=m_url, m_manager_id=m_manager_id,
-                        m_body=m_body,  m_image=m_image)
+    if request.session.get('user'):
+        m_category = request.POST['m_category']
+        m_name = request.POST['m_name']
+        m_content = request.POST['m_content']
+        m_body = request.POST['m_body']
+        m_manager_id = request.session.get('user_id')
+        m_url = request.POST['m_url']
+        m_image = request.FILES['m_image']
+        new_meet = Meetings(m_category=m_category, m_name=m_name, m_content=m_content, m_url=m_url, m_manager_id=m_manager_id,
+                            m_body=m_body,  m_image=m_image)
 
-    new_meet.save()
-    # 나중에 등록한 모임 자세히 보기 페이지로 전환할 예정
-    return HttpResponseRedirect(reverse('index'))
+        new_meet.save()
+        # 등록한 모임페이지로 이동
+        move_notice = Meetings.objects.get(
+            m_category=m_category, m_manager_id=m_manager_id, m_name=m_name)
+        m_id = move_notice.m_id
+        return redirect('/notice/getMeet?category='+m_category+"&id="+str(m_id))
+    else:
+        return HttpResponseRedirect(reverse('signin'))
 
 
-# 모임 수정시 모임 이름 중복 체크 (수정시 같은 이름은 사용할 수 있는 이름으로 return)
+# 모임 수정시 모임 이름 중복 체크 (수정시 같은 이름은 사용할 수 있는 이름으로 return)-Ajax
 def updatemeetnameCheck(request):
     m_id = request.session.get('update')
     same = Meetings.objects.get(m_id=m_id)
@@ -54,7 +60,7 @@ def updatemeetnameCheck(request):
     return JsonResponse(result)
 
 
-# 모임 생성시 이름 중복 체크
+# 모임 생성시 이름 중복 체크(Ajax)
 def meetnameCheck(request):
 
     try:
@@ -76,6 +82,7 @@ def updateMeetCheck(request):
 
         res_data = {}
         id = request.GET['id']
+        # 만약에 없는 모임 을 요청할 경우
         try:
             meeting = Meetings.objects.get(m_id=id)
             res_data['meeting'] = meeting
@@ -137,12 +144,14 @@ def updateMeet(request):
             m_content = request.POST['m_content']
             m_body = request.POST['m_body']
             m_url = request.POST['m_url']
+
             try:
                 m_image = request.FILES['m_image']
                 # 기존 이미지 파일 삭제후
                 update_meet.m_image.delete()
                 update_meet.m_image = m_image
             except Exception:
+                # 이미지 변경을 하지 않았을 경우
                 pass
             finally:
                 update_meet.m_name = m_name
@@ -150,9 +159,10 @@ def updateMeet(request):
                 update_meet.m_body = m_body
                 update_meet.m_url = m_url
                 update_meet.save()
-
+            # 업데이트한 모임페이지로 이동
             return redirect('/notice/getMeet?category='+update_meet.m_category+"&id="+m_id)
         else:
+            # 등록 유저 아이디와 수정 요청 유저 아이디가 일치 하지 않는다면 메인 페이지로 전환
             return HttpResponseRedirect(reverse('index'))
     else:
         return HttpResponseRedirect(reverse('signinPage'))
@@ -218,6 +228,7 @@ def deleteMeet(request):
     if request.session.get('user'):
         try:
             check_meet = Meetings.objects.get(m_id=request.GET['id'])
+            # 삭제 요청하는 유저 번호와 해당 모임을 등록한 유저 번호가 일치하는지 확인
             if request.session.get('user_id') == check_meet.m_manager_id:
                 check_meet.delete()
                 # joinus 테이블의 해당 모임 id도 삭제
