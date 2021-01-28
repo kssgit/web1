@@ -60,6 +60,12 @@ $('#join-form').submit(function () {
           alert("중복 체크해주세요")
           return false;
         }
+        let checkurl = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+        let m_url = document.getElementById('m-url').value;
+        if (!checkurl.test(m_url)) {
+          alert('올바른 url을 적어주세요');
+          return false;
+        }
       }
       else if (confirm_image == false) {
         return false;
@@ -119,12 +125,3 @@ $('#m-name').change(function () {
 
 });
 
-//이미지 수정 버튼 클릭시 이미지 업로드 태그 생성 
-// $('#btn-image-show').click(function () {
-
-//   $('#btn-image-show').hide();
-//   var $obj = $('#box-image-input').clone();
-//   $obj.attr('id', 'box-image');
-//   $('#btn-image-show').after($obj);
-//   $('#box-image').css('display', '');
-// });

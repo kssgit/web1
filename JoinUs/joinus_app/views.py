@@ -26,7 +26,7 @@ def index(request):
     if meetsTop3:
         for index, meet in enumerate(meetsTop3):
             if index < 3:  # 상위3개 모임만 가져오게
-                print(meet['m_id'])
+
                 m = meeting.objects.get(m_id=meet['m_id'])
                 meetings.append(m)
         res_data['Top3Meeting'] = meetings

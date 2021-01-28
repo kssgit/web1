@@ -56,10 +56,7 @@ $('#join-form').submit(function () {
 
     return false;
   }
-  //이미지 파일 유효성 검사 
-  // 카테고리 체크여부 확인
-  //undefined 왜나오지??? 자바스크립트로 하려면 for 문을 돌려서 확인 해야 한다
-  //하지만 jqeury로 할 경우 아래 코드를 이용해 한번에 확인 가능 하다
+
   let check = $("input:radio[name='m_category']").is(":checked");
   if (!check) {
     alert("카테고리를 체크해주세요");
@@ -71,6 +68,14 @@ $('#join-form').submit(function () {
     alert("중복 체크해주세요")
     return false;
   }
+
+  let checkurl = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+  let m_url = document.getElementById('m-url').value;
+  if (!checkurl.test(m_url)) {
+    alert('올바른 url을 적어주세요');
+    return false;
+  }
+
 
 });
 

@@ -48,8 +48,8 @@
     </div>
     <!-- 카카오 오픈 채팅 방 주소 -->
     <h3>Meeting URL</h3>
-    <input type="text" name="m_url" class="form-control mt-1 mb-2" placeholder="모임 소통할 카카오 오픈 채팅방 주소를 적어 주세요" required
-      value="{{meeting.m_url}}">
+    <input id='m-url' type="text" name="m_url" class="form-control mt-1 mb-2" placeholder="모임 소통할 카카오 오픈 채팅방 주소를 적어 주세요"
+      required value="{{meeting.m_url}}">
     <!-- 이미지 업로드 -->
 
     <div class="filebox preview-image">
@@ -65,5 +65,5 @@
 </div>
 
 
-<script src="{%static 'js/noticeboard.js'%}" defer></script>
+<script src="{%static 'js/createnoticeboard.js'%}" defer></script>
 {%endblock content%}
