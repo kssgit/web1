@@ -83,28 +83,3 @@
 
 ​			회원 탈퇴 시 비밀번호 확인
 
-## 대표 웹 페이지
-
-**메인 페이지**
-
-![image-20210410090509250](C:\Users\SEONGSOO\AppData\Roaming\Typora\typora-user-images\image-20210410090509250.png)
-
-**카테고리 페이지**
-
-![image-20210410091519711](C:\Users\SEONGSOO\AppData\Roaming\Typora\typora-user-images\image-20210410091519711.png)
-
-**모임 상세 페이지 **
-
-![image-20210410091545657](C:\Users\SEONGSOO\AppData\Roaming\Typora\typora-user-images\image-20210410091545657.png)
-
-**모임 등록 페이지**
-
-![image-20210410091603992](C:\Users\SEONGSOO\AppData\Roaming\Typora\typora-user-images\image-20210410091603992.png)
-
-**모임 수정 페이지**
-
-![image-20210410091632116](C:\Users\SEONGSOO\AppData\Roaming\Typora\typora-user-images\image-20210410091632116.png)
-
-**마이페이지**
-
-![image-20210410091653935](C:\Users\SEONGSOO\AppData\Roaming\Typora\typora-user-images\image-20210410091653935.png)
