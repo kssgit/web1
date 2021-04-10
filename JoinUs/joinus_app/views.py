@@ -21,6 +21,9 @@ def index(request):
         Count('u_id')).order_by('-u_id__count')
     meetings = []  # top 모임을 담을 list
     # noticeboard_app 모델 가져오기
+
+    print(meetsTop3)
+
     meeting = apps.get_model(
         app_label='noticeboard_app', model_name='meetings')
     if meetsTop3:
@@ -29,6 +32,7 @@ def index(request):
 
                 m = meeting.objects.get(m_id=meet['m_id'])
                 meetings.append(m)
+         
         res_data['Top3Meeting'] = meetings
     else:
         # 모든 모임에 가입자가 없다면 빈 list 출력
